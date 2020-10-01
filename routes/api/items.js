@@ -21,6 +21,7 @@ router.post('/', (req, res) => {
         name: req.body.name
     });
     newItem.save().then(item => res.json(item));
+
     // Shorthand
     // Item.create({name: req.body.name}).then(item => res.json(item));
 });
@@ -29,11 +30,12 @@ router.post('/', (req, res) => {
 // @desc Delete a item
 // @access Public
 router.delete('/:id', (req, res) => {
-    // Item.findById(req.params.id)
-    //     .then(item => item.remove().then(() => res.json({success: true})))
-    //     .catch(err => res.status(404).json({success: false}));
+    Item.findById(req.params.id)
+        .then(item => item.remove().then(() => res.json({success: true})))
+        .catch(err => res.status(404).json({success: false}));
 
-    Item.findByIdAndDelete(req.params.id, () => res.json({sucess: "worked"}) );
+    //Shothand
+    // Item.findByIdAndDelete(req.params.id, () => res.json({sucess: "worked"}));
 });
 
 module.exports = router;
