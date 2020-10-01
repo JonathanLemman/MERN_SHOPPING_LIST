@@ -2,18 +2,24 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+const items = require('./routes/api/items');
+
 const app = express();
 
 // BodyParser Middleware
-app.use(bodyParser.json);
+app.use(bodyParser.json());
 
 // DB config
 const db = require('./config/keys.js').mongoURI;
 
 // Connect to Mongo
-mongoose.connect(db)
+mongoose.connect(db, {useUnifiedTopology: true, useNewUrlParser: true})
     .then(() => console.log('Mongo Connected...'))
     .catch(err => console.log(err));
+
+// Use Routes
+app.use('/api/items', items);
+
 
 const port = process.env.PORT || 5000;
 
